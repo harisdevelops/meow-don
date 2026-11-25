@@ -1022,12 +1022,31 @@
   }
 
   .gojo-figure {
-    right: 16px;
-    bottom: 108px;
-    width: 230px;
-    height: 280px;
-    opacity: 0.88;
-    animation: figureHover 4.2s ease-in-out infinite alternate;
+    right: 12px;
+    bottom: 84px;
+    width: 280px;
+    height: 340px;
+    opacity: 0.94;
+    animation: figureHover 4.5s ease-in-out infinite alternate;
+  }
+
+  .rdr-figure {
+    right: 8px;
+    bottom: 80px;
+    width: 300px;
+    height: 340px;
+    opacity: 0.94;
+  }
+
+  .rdr-smoke {
+    transform-origin: 18px 146px;
+    animation: smokeDrift 4.2s ease-out infinite;
+  }
+
+  @keyframes smokeDrift {
+    0%, 73% { transform: translate3d(0, 0, 0) scale(0.4); opacity: 0; }
+    80% { transform: translate3d(-12px, -16px, 0) scale(1); opacity: 0.55; }
+    100% { transform: translate3d(-28px, -48px, 0) scale(1.7); opacity: 0; }
   }
 
   .gojo-hand-glow {
@@ -1171,28 +1190,20 @@
     100% { transform: scale(1.08); opacity: 1; }
   }
 
-  .rdr-figure {
-    right: 14px;
-    bottom: 102px;
-    width: 245px;
-    height: 285px;
-    opacity: 0.9;
-  }
-
   .rdr-revolver-arm {
-    transform-origin: 84px 156px;
+    transform-origin: 112px 186px;
     animation: revolverRecoil 4.2s ease-out infinite;
   }
 
   @keyframes revolverRecoil {
     0%, 71% { transform: rotate(0deg); }
-    74% { transform: rotate(15deg) translate3d(4px, -3px, 0); }
-    82% { transform: rotate(-2deg); }
+    74% { transform: rotate(13deg) translate3d(5px, -4px, 0); }
+    81% { transform: rotate(-1.5deg); }
     90%, 100% { transform: rotate(0deg); }
   }
 
   .rdr-muzzle-flash {
-    transform-origin: 6px 146px;
+    transform-origin: 14px 168px;
     animation: muzzleBang 4.2s ease-out infinite;
   }
 
@@ -2595,38 +2606,106 @@
   };
 
   const GOJO_FIGURE_SVG = `
-    <svg class="scene-figure gojo-figure" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Aura behind head -->
-      <circle cx="115" cy="96" r="78" fill="url(#gojoAura)" opacity="0.55"/>
+    <svg class="scene-figure gojo-figure" viewBox="0 0 280 340" fill="none" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <radialGradient id="gojoAura" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stop-color="#a855f7" stop-opacity="0.7"/>
-          <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.35"/>
+        <radialGradient id="gojoAura" cx="52%" cy="38%" r="52%">
+          <stop offset="0%" stop-color="#a855f7" stop-opacity="0.55"/>
+          <stop offset="48%" stop-color="#38bdf8" stop-opacity="0.28"/>
           <stop offset="100%" stop-color="#0b0a16" stop-opacity="0"/>
         </radialGradient>
+        <linearGradient id="gojoHairBase" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="52%" stop-color="#e2e8f0"/>
+          <stop offset="100%" stop-color="#94a3b8"/>
+        </linearGradient>
+        <linearGradient id="gojoHairShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#cbd5e1"/>
+          <stop offset="100%" stop-color="#64748b"/>
+        </linearGradient>
+        <linearGradient id="gojoSkin" x1="20%" y1="0%" x2="80%" y2="100%">
+          <stop offset="0%" stop-color="#f8fafc"/>
+          <stop offset="55%" stop-color="#e2e8f0"/>
+          <stop offset="100%" stop-color="#cbd5e1"/>
+        </linearGradient>
+        <linearGradient id="gojoCoat" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#1e1b3a"/>
+          <stop offset="55%" stop-color="#110f24"/>
+          <stop offset="100%" stop-color="#090814"/>
+        </linearGradient>
+        <radialGradient id="sixEyeIris" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="28%" stop-color="#7dd3fc"/>
+          <stop offset="68%" stop-color="#0284c7"/>
+          <stop offset="100%" stop-color="#1e3a8a"/>
+        </radialGradient>
+        <radialGradient id="purpleOrb" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ffffff"/>
+          <stop offset="28%" stop-color="#e9d5ff"/>
+          <stop offset="60%" stop-color="#a855f7"/>
+          <stop offset="100%" stop-color="#a855f7" stop-opacity="0"/>
+        </radialGradient>
       </defs>
-      <!-- Jujutsu High Jacket & High Collar -->
-      <path d="M38 278 L52 178 Q82 156 115 156 Q148 156 178 178 L192 278 Z" fill="#14132a" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
-      <path d="M82 152 L92 128 L138 128 L148 152 L115 170 Z" fill="#0d0c1d" stroke="#a855f7" stroke-opacity="0.45" stroke-width="1.5"/>
-      <!-- Neck & Face -->
-      <rect x="103" y="116" width="24" height="24" rx="8" fill="#dbeafe"/>
-      <path d="M84 82 Q84 126 115 130 Q146 126 146 82 Q146 52 115 52 Q84 52 84 82 Z" fill="#e2e8f0"/>
-      <!-- Iconic Black Blindfold with Six Eyes Cyan Glow -->
-      <path d="M80 76 Q115 68 150 76 L149 97 Q115 91 81 97 Z" fill="#090912" stroke="#38bdf8" stroke-opacity="0.55" stroke-width="1.2"/>
-      <ellipse cx="101" cy="85" rx="7" ry="3.2" fill="#38bdf8" opacity="0.9"/>
-      <ellipse cx="129" cy="85" rx="7" ry="3.2" fill="#38bdf8" opacity="0.9"/>
-      <circle cx="101" cy="85" r="2" fill="#ffffff"/>
-      <circle cx="129" cy="85" r="2" fill="#ffffff"/>
-      <!-- Confident Smirk -->
-      <path d="M105 112 Q116 117 126 110" stroke="#475569" stroke-width="2.2" stroke-linecap="round"/>
-      <!-- Spiky White Hair -->
-      <path d="M78 80 L64 56 L82 60 L74 34 L96 48 L104 20 L118 44 L132 18 L136 46 L158 34 L148 60 L166 58 L150 82 Q132 62 115 62 Q98 62 78 80 Z" fill="#f8fafc"/>
-      <!-- Raised Hand Casting Hollow Purple -->
-      <path d="M52 206 L34 152 L48 148 L64 192 Z" fill="#14132a" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1.2"/>
-      <g class="gojo-hand-glow">
-        <circle cx="42" cy="134" r="22" fill="#a855f7" opacity="0.45"/>
-        <circle cx="42" cy="134" r="13" fill="#c084fc" opacity="0.8"/>
-        <circle cx="42" cy="134" r="6" fill="#ffffff"/>
+
+      <!-- Volumetric Cursed Energy Aura -->
+      <circle cx="152" cy="128" r="118" fill="url(#gojoAura)"/>
+
+      <!-- Jujutsu High Uniform Shoulders & High Collar with Cloth Folds -->
+      <path d="M54 340 L72 224 C86 202 114 192 152 192 C190 192 220 202 238 226 L256 340 Z" fill="url(#gojoCoat)" stroke="#38bdf8" stroke-opacity="0.28" stroke-width="1.4"/>
+      <!-- Jacket Lapel & Shadow Folds -->
+      <path d="M114 196 L146 276 L156 340 L120 340 L94 238 Z" fill="#090816" opacity="0.65"/>
+      <path d="M196 204 L216 266 L228 340" stroke="#38bdf8" stroke-opacity="0.18" stroke-width="1.6"/>
+      <!-- High Standing Collar -->
+      <path d="M116 196 L124 162 L182 162 L190 196 C174 210 132 210 116 196 Z" fill="#0d0b1e" stroke="#a855f7" stroke-opacity="0.4" stroke-width="1.2"/>
+      <circle cx="176" cy="182" r="3.2" fill="#94a3b8" stroke="#38bdf8" stroke-width="0.8"/>
+
+      <!-- Sculpted Neck & Jaw Shadow -->
+      <path d="M137 148 L167 148 L169 178 C158 184 146 184 135 178 Z" fill="url(#gojoSkin)"/>
+      <path d="M137 148 C148 162 158 162 167 148 L167 162 C156 168 148 168 137 162 Z" fill="#94a3b8" opacity="0.5"/>
+
+      <!-- Realistic Anime Face Contour -->
+      <path d="M116 102 C116 138 128 158 152 164 C176 158 188 138 188 102 C188 72 174 58 152 58 C130 58 116 72 116 102 Z" fill="url(#gojoSkin)"/>
+      <!-- Cheekbone & Nose Shading -->
+      <path d="M150 114 L148 128 L154 129" stroke="#94a3b8" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path d="M136 142 C146 148 159 147 168 140" stroke="#475569" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M148 148 Q153 150 158 148" stroke="#94a3b8" stroke-width="1" stroke-linecap="round"/>
+
+      <!-- Black Blindfold (Pulled up slightly on right side to reveal glowing Six Eye!) -->
+      <path d="M112 94 C132 88 156 84 191 74 L191 95 C166 104 138 112 114 114 Z" fill="#090913" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1"/>
+      <!-- Blindfold Cloth Creases -->
+      <path d="M118 103 C140 100 162 93 186 84" stroke="#1e293b" stroke-width="1.2"/>
+
+      <!-- Revealed Glowing Six Eye (Right Eye) -->
+      <g>
+        <path d="M161 108 C166 102 177 102 182 108 C177 114 166 114 161 108 Z" fill="#ffffff"/>
+        <circle cx="171.5" cy="108" r="5.2" fill="url(#sixEyeIris)"/>
+        <circle cx="171.5" cy="108" r="2" fill="#0c4a6e"/>
+        <circle cx="169.5" cy="106.2" r="1.4" fill="#ffffff"/>
+        <circle cx="173.8" cy="109.5" r="0.8" fill="#e0f2fe"/>
+        <!-- White Eyelashes -->
+        <path d="M159 107 C165 100 178 100 184 107" stroke="#f8fafc" stroke-width="2" stroke-linecap="round"/>
+        <path d="M162 112 C168 115 176 115 181 112" stroke="#94a3b8" stroke-width="1" stroke-linecap="round"/>
+      </g>
+      <!-- Subtle Cyan Glow Peeking Through Left Blindfold -->
+      <ellipse cx="133" cy="104" rx="8" ry="2.6" fill="#38bdf8" opacity="0.65"/>
+
+      <!-- Back Hair Shadow Layer -->
+      <path d="M108 100 L94 74 L112 72 L106 42 L128 54 L142 22 L156 48 L174 20 L182 52 L206 38 L196 70 L214 74 L194 104 Z" fill="url(#gojoHairShadow)"/>
+      <!-- Front Layered Spiky Silver-White Hair Strands -->
+      <path d="M110 96 L98 68 L116 74 L114 40 L134 58 L146 24 L158 54 L172 26 L176 58 L200 44 L190 74 L208 76 L192 98 C184 78 172 70 156 68 L164 86 L148 70 L142 90 L132 72 L122 92 Z" fill="url(#gojoHairBase)"/>
+      <!-- Hair Cyan/Violet Rim Highlights -->
+      <path d="M146 24 L156 50 M172 26 L174 54 M114 40 L130 58 M200 44 L188 70" stroke="#e0f2fe" stroke-width="1.2" opacity="0.85"/>
+
+      <!-- Foreground Hand Forming Hollow Purple Flick Pose -->
+      <g>
+        <path d="M74 248 L52 190 L68 184 L90 232 Z" fill="url(#gojoCoat)" stroke="#a855f7" stroke-opacity="0.35" stroke-width="1.2"/>
+        <!-- Hand & Fingers -->
+        <path d="M48 188 L40 162 C39 157 45 155 47 160 L53 176 L54 152 C54 147 61 147 61 153 L61 174 L67 166 C71 163 75 167 72 172 L66 190 Z" fill="url(#gojoSkin)" stroke="#94a3b8" stroke-width="0.9"/>
+        <!-- Glowing Hollow Purple Plasma Core at Fingertips -->
+        <g class="gojo-hand-glow">
+          <circle cx="48" cy="144" r="34" fill="url(#purpleOrb)"/>
+          <circle cx="48" cy="144" r="20" fill="none" stroke="#c084fc" stroke-width="1.5" stroke-dasharray="5 3"/>
+          <circle cx="48" cy="144" r="9" fill="#ffffff"/>
+        </g>
       </g>
     </svg>`;
 
@@ -2640,31 +2719,107 @@
     </svg>`;
 
   const RDR2_FIGURE_SVG = `
-    <svg class="scene-figure rdr-figure" viewBox="0 0 240 280" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <!-- Crimson Frontier Sun behind Arthur -->
-      <circle cx="132" cy="108" r="84" fill="#cc2936" opacity="0.72"/>
-      <circle cx="132" cy="108" r="56" fill="#d49b4b" opacity="0.28"/>
-      <!-- Outlaw Duster Coat & Shoulders -->
-      <path d="M44 278 L62 162 Q98 142 132 142 Q166 142 192 166 L210 278 Z" fill="#120b09" stroke="#d49b4b" stroke-opacity="0.3" stroke-width="1.5"/>
-      <!-- Bandana & Collar -->
-      <path d="M98 134 L154 134 L138 172 L114 172 Z" fill="#991b1b" stroke="#d49b4b" stroke-opacity="0.4" stroke-width="1"/>
-      <!-- Head & Beard Silhouette -->
-      <path d="M106 86 Q106 130 128 134 Q150 130 150 86 Z" fill="#1e130f"/>
-      <!-- Iconic Arthur Morgan Cowboy Hat -->
-      <path d="M60 88 Q128 102 196 84 Q178 73 156 76 L148 42 Q128 52 108 42 L100 76 Q78 73 60 88 Z" fill="#0d0806" stroke="#d49b4b" stroke-opacity="0.6" stroke-width="1.6"/>
-      <path d="M102 74 Q128 81 154 74" stroke="#cc2936" stroke-width="3.5"/>
-      <!-- Aimed Revolver Arm & Detailed Six-Shooter (Recoils & Fires!) -->
+    <svg class="scene-figure rdr-figure" viewBox="0 0 300 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="rdrSun" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#f4a261" stop-opacity="0.65"/>
+          <stop offset="45%" stop-color="#cc2936" stop-opacity="0.82"/>
+          <stop offset="100%" stop-color="#17100d" stop-opacity="0"/>
+        </radialGradient>
+        <linearGradient id="rdrHat" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2c1d16"/>
+          <stop offset="55%" stop-color="#140c09"/>
+          <stop offset="100%" stop-color="#090504"/>
+        </linearGradient>
+        <linearGradient id="rdrCoat" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#2d1c15"/>
+          <stop offset="45%" stop-color="#180f0c"/>
+          <stop offset="100%" stop-color="#0c0705"/>
+        </linearGradient>
+        <linearGradient id="rdrSteel" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#e2e8f0"/>
+          <stop offset="42%" stop-color="#94a3b8"/>
+          <stop offset="70%" stop-color="#475569"/>
+          <stop offset="100%" stop-color="#1e293b"/>
+        </linearGradient>
+        <linearGradient id="rdrBrass" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#fde68a"/>
+          <stop offset="50%" stop-color="#d49b4b"/>
+          <stop offset="100%" stop-color="#784c18"/>
+        </linearGradient>
+        <linearGradient id="rdrWood" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#8b5a2b"/>
+          <stop offset="55%" stop-color="#5c3a1d"/>
+          <stop offset="100%" stop-color="#2e1b0d"/>
+        </linearGradient>
+      </defs>
+
+      <!-- Painterly Crimson Frontier Sun Backdrop -->
+      <circle cx="176" cy="134" r="118" fill="url(#rdrSun)"/>
+
+      <!-- Weathered Duster Coat & Layered Shoulder Cape -->
+      <path d="M78 340 L98 206 C116 184 146 176 178 176 C212 176 244 188 262 212 L284 340 Z" fill="url(#rdrCoat)" stroke="#d49b4b" stroke-opacity="0.28" stroke-width="1.3"/>
+      <!-- Coat Lapels & Leather Suspenders -->
+      <path d="M138 182 L162 248 L178 248 L202 182" stroke="#5c3a21" stroke-width="2.5" fill="none"/>
+      <path d="M150 248 L142 340 M190 248 L198 340" stroke="#3b2416" stroke-width="2"/>
+      <!-- Red Outlaw Bandana with Cloth Folds -->
+      <path d="M138 164 C156 172 184 172 204 164 L188 204 L170 212 L152 204 Z" fill="#991b1b" stroke="#cc2936" stroke-width="1"/>
+      <path d="M148 176 Q171 185 194 176 M154 188 Q171 196 188 188" stroke="#450a0a" stroke-width="1.3" fill="none"/>
+
+      <!-- Shadowed Rugged Face & Beard Contour -->
+      <path d="M148 112 C148 148 156 168 174 172 C192 168 200 148 200 112 Z" fill="#3a251c"/>
+      <!-- Rim Light on Cheek & Jaw -->
+      <path d="M196 120 C197 146 190 162 176 168" stroke="#f4a261" stroke-opacity="0.55" stroke-width="1.8" fill="none"/>
+      <!-- Shadow under Hat Brim & Piercing Eyes -->
+      <path d="M148 114 L200 114 L198 130 L150 130 Z" fill="#140c09" opacity="0.72"/>
+      <ellipse cx="163" cy="126" rx="3.4" ry="1.6" fill="#f3e6d3" opacity="0.85"/>
+      <ellipse cx="183" cy="126" rx="3.4" ry="1.6" fill="#f3e6d3" opacity="0.85"/>
+      <!-- Rugged Beard / Stubble Shadow -->
+      <path d="M150 144 C152 166 164 174 174 174 C184 174 196 166 198 144 C190 156 158 156 150 144 Z" fill="#1b110c" opacity="0.85"/>
+
+      <!-- Iconic Arthur Morgan Gambler Cowboy Hat -->
+      <path d="M88 112 C122 126 218 124 256 102 C238 92 216 92 204 94 L196 54 C182 62 164 62 150 54 L142 94 C122 92 104 98 88 112 Z" fill="url(#rdrHat)" stroke="#d49b4b" stroke-opacity="0.55" stroke-width="1.4"/>
+      <!-- Hat Crease & Braided Leather Band -->
+      <path d="M152 56 Q173 68 194 56" stroke="#472d1f" stroke-width="1.8" fill="none"/>
+      <path d="M143 92 Q173 100 203 92" stroke="#cc2936" stroke-width="4" stroke-linecap="round"/>
+      <path d="M144 92 Q173 100 202 92" stroke="#d49b4b" stroke-width="1.2" stroke-dasharray="4 3" fill="none"/>
+
+      <!-- Detailed Aimed Cattleman Six-Shooter Revolver & Recoiling Arm -->
       <g class="rdr-revolver-arm">
-        <path d="M82 174 L32 158 L36 144 L90 156 Z" fill="#140c09" stroke="#d49b4b" stroke-opacity="0.3" stroke-width="1"/>
-        <!-- Revolver Barrel, Cylinder, Hammer, Grip -->
-        <rect x="4" y="140" width="32" height="6" rx="1.5" fill="#94a3b8" stroke="#1e293b" stroke-width="1"/>
-        <rect x="26" y="142" width="12" height="10" rx="2" fill="#d49b4b" stroke="#1e130f" stroke-width="1"/>
-        <path d="M36 146 L46 149 L42 164 L32 162 Z" fill="#5c3a21" stroke="#d49b4b" stroke-width="1"/>
-        <path d="M36 142 L41 137" stroke="#d49b4b" stroke-width="2" stroke-linecap="round"/>
-        <!-- Blazing Muzzle Flash -->
+        <!-- Duster Sleeve & Gloved Hand -->
+        <path d="M118 206 L64 186 L69 166 L128 184 Z" fill="url(#rdrCoat)" stroke="#d49b4b" stroke-opacity="0.3" stroke-width="1.2"/>
+        <!-- Realistic Single-Action Cattleman Revolver -->
+        <!-- Long Octagonal Steel Barrel + Ejector Rod + Front Sight -->
+        <path d="M14 162 L66 162 L66 170 L14 170 Z" fill="url(#rdrSteel)" stroke="#0f172a" stroke-width="0.9"/>
+        <path d="M18 162 L21 156 L25 162 Z" fill="#cbd5e1"/>
+        <rect x="24" y="170" width="38" height="3.2" rx="1" fill="#64748b"/>
+        <!-- Top Strap & Engraved Brass Frame -->
+        <path d="M62 161 L88 161 L92 178 L62 178 Z" fill="url(#rdrBrass)" stroke="#3b2416" stroke-width="1"/>
+        <!-- Fluted 6-Chamber Steel Cylinder -->
+        <rect x="65" y="164" width="17" height="13" rx="2.5" fill="url(#rdrSteel)" stroke="#1e293b" stroke-width="1"/>
+        <line x1="66" y1="168.5" x2="81" y2="168.5" stroke="#1e293b" stroke-width="1.2"/>
+        <line x1="66" y1="173" x2="81" y2="173" stroke="#1e293b" stroke-width="1.2"/>
+        <!-- Cocked Hammer Spur -->
+        <path d="M84 162 L93 153 L95 156 L88 164 Z" fill="url(#rdrSteel)"/>
+        <!-- Trigger Guard & Trigger -->
+        <path d="M72 178 C72 188 86 188 87 178" stroke="url(#rdrBrass)" stroke-width="2" fill="none"/>
+        <path d="M79 178 Q81 183 78 185" stroke="#e2e8f0" stroke-width="1.4" fill="none"/>
+        <!-- Curved Walnut Wood Grip with Brass Medallion -->
+        <path d="M84 174 L98 177 L92 204 C88 206 81 205 78 202 L82 184 Z" fill="url(#rdrWood)" stroke="#3b2416" stroke-width="1"/>
+        <circle cx="88" cy="190" r="2.2" fill="#d49b4b"/>
+
+        <!-- Gunsmoke Curling Plume -->
+        <g class="rdr-smoke">
+          <circle cx="10" cy="158" r="9" fill="#cbd5e1" opacity="0.45"/>
+          <circle cx="2" cy="148" r="12" fill="#94a3b8" opacity="0.35"/>
+          <circle cx="-6" cy="138" r="8" fill="#e2e8f0" opacity="0.3"/>
+        </g>
+
+        <!-- Blazing Realistic Muzzle Flash -->
         <g class="rdr-muzzle-flash">
-          <polygon points="4,143 -18,128 -6,141 -26,144 -6,147 -16,160 4,146" fill="#fbbf24"/>
-          <polygon points="4,143 -10,136 -3,143 -14,144 -3,146 -8,152 4,145" fill="#ffffff"/>
+          <polygon points="14,166 -16,146 0,162 -30,166 0,170 -14,186 14,168" fill="#f59e0b"/>
+          <polygon points="14,166 -6,154 4,164 -18,166 4,168 -4,178 14,167" fill="#fef3c7"/>
+          <circle cx="8" cy="166" r="6" fill="#ffffff"/>
         </g>
       </g>
     </svg>`;
