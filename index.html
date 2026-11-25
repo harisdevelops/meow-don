@@ -974,8 +974,272 @@
     border-bottom-color: rgba(204, 41, 54, 0.45);
   }
 
+  /* ===== Heavy Cinematic Animations for Gojo & RDR2 (GPU-composited) ===== */
+  .scene-figure {
+    position: absolute;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  /* Gojo Satoru — Unlimited Void + Hollow Purple Collision */
+  .gojo-void-ring {
+    position: absolute;
+    left: 50%;
+    top: 48%;
+    width: 640px;
+    height: 640px;
+    margin-left: -320px;
+    margin-top: -320px;
+    border-radius: 50%;
+    border: 1.5px dashed rgba(168, 85, 247, 0.28);
+    animation: voidSpin 28s linear infinite;
+  }
+
+  .gojo-void-ring.r2 {
+    width: 440px;
+    height: 440px;
+    margin-left: -220px;
+    margin-top: -220px;
+    border: 1.5px solid rgba(56, 189, 248, 0.22);
+    animation: voidSpin 18s linear infinite reverse;
+  }
+
+  @keyframes voidSpin {
+    from { transform: rotate(0deg) scale(1); }
+    50% { transform: rotate(180deg) scale(1.06); }
+    to { transform: rotate(360deg) scale(1); }
+  }
+
+  .gojo-figure {
+    right: 22px;
+    bottom: 64px;
+    width: 240px;
+    height: 300px;
+    opacity: 0.34;
+    animation: figureHover 5s ease-in-out infinite alternate;
+  }
+
+  @keyframes figureHover {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, -14px, 0); }
+  }
+
+  .gojo-attack-stage {
+    position: absolute;
+    left: 50%;
+    top: 44%;
+    width: 520px;
+    height: 220px;
+    margin-left: -260px;
+    margin-top: -110px;
+  }
+
+  .hp-blue {
+    position: absolute;
+    left: 20px;
+    top: 75px;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #e0f2fe 15%, #38bdf8 50%, rgba(56, 189, 248, 0) 75%);
+    animation: hpBlueMerge 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .hp-red {
+    position: absolute;
+    right: 20px;
+    top: 75px;
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffe4e6 15%, #f43f5e 50%, rgba(244, 63, 94, 0) 75%);
+    animation: hpRedMerge 5.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  .hp-purple {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 150px;
+    height: 150px;
+    margin-left: -75px;
+    margin-top: -75px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff 10%, #d8b4fe 32%, #a855f7 58%, rgba(168, 85, 247, 0) 75%);
+    animation: hpPurpleBlast 5.2s ease-out infinite;
+  }
+
+  .hp-shockwave {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 120px;
+    height: 120px;
+    margin-left: -60px;
+    margin-top: -60px;
+    border-radius: 50%;
+    border: 3px solid #c084fc;
+    animation: hpShockwave 5.2s ease-out infinite;
+  }
+
+  .hp-shockwave.s2 {
+    border-color: #38bdf8;
+    animation-delay: 0.16s;
+  }
+
+  @keyframes hpBlueMerge {
+    0% { transform: translate3d(-40px, 0, 0) scale(0.7); opacity: 0; }
+    18% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+    46% { transform: translate3d(206px, 0, 0) scale(1.15); opacity: 0.95; }
+    54%, 100% { transform: translate3d(206px, 0, 0) scale(0.2); opacity: 0; }
+  }
+
+  @keyframes hpRedMerge {
+    0% { transform: translate3d(40px, 0, 0) scale(0.7); opacity: 0; }
+    18% { transform: translate3d(0, 0, 0) scale(1); opacity: 0.85; }
+    46% { transform: translate3d(-206px, 0, 0) scale(1.15); opacity: 0.95; }
+    54%, 100% { transform: translate3d(-206px, 0, 0) scale(0.2); opacity: 0; }
+  }
+
+  @keyframes hpPurpleBlast {
+    0%, 44% { transform: scale(0.1); opacity: 0; }
+    52% { transform: scale(1.15); opacity: 0.85; }
+    72% { transform: scale(2.1); opacity: 0.45; }
+    100% { transform: scale(3.2); opacity: 0; }
+  }
+
+  @keyframes hpShockwave {
+    0%, 46% { transform: scale(0.2); opacity: 0; }
+    52% { transform: scale(0.9); opacity: 0.75; }
+    88% { transform: scale(4.8); opacity: 0; }
+    100% { transform: scale(4.8); opacity: 0; }
+  }
+
+  /* Red Dead Redemption 2 — Outlaw Figure + Spinning Revolver + Dead Eye + Bullet Tracers */
+  .rdr-sunset {
+    position: absolute;
+    left: 50%;
+    bottom: -140px;
+    width: 560px;
+    height: 560px;
+    margin-left: -280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(204, 41, 54, 0.34) 0%, rgba(212, 155, 75, 0.16) 45%, transparent 72%);
+    animation: sunsetPulse 6s ease-in-out infinite alternate;
+  }
+
+  @keyframes sunsetPulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    100% { transform: scale(1.08); opacity: 1; }
+  }
+
+  .rdr-figure {
+    right: 18px;
+    bottom: 58px;
+    width: 245px;
+    height: 290px;
+    opacity: 0.38;
+  }
+
+  .rdr-cylinder {
+    position: absolute;
+    left: 34px;
+    bottom: 92px;
+    width: 96px;
+    height: 96px;
+    opacity: 0.3;
+    animation: cylinderSpin 5.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+
+  @keyframes cylinderSpin {
+    0% { transform: rotate(0deg); }
+    16% { transform: rotate(60deg); }
+    32% { transform: rotate(60deg); }
+    48% { transform: rotate(120deg); }
+    64% { transform: rotate(120deg); }
+    80% { transform: rotate(360deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  .rdr-bullet {
+    position: absolute;
+    height: 3px;
+    width: 140px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent 0%, #cc2936 40%, #fbbf24 85%, #ffffff 100%);
+    animation: bulletStreak var(--dur, 4.4s) cubic-bezier(0.15, 0.85, 0.35, 1) var(--delay, 0s) infinite;
+  }
+
+  @keyframes bulletStreak {
+    0%, 72% { transform: translate3d(-180px, 0, 0) scaleX(0.4); opacity: 0; }
+    76% { opacity: 0.9; }
+    92% { transform: translate3d(105vw, 0, 0) scaleX(1.3); opacity: 0.8; }
+    100% { transform: translate3d(115vw, 0, 0) scaleX(0.6); opacity: 0; }
+  }
+
+  .rdr-deadeye {
+    position: absolute;
+    width: 44px;
+    height: 44px;
+    color: #cc2936;
+    animation: deadEyeLock var(--dur, 4.4s) ease-out var(--delay, 0s) infinite;
+  }
+
+  @keyframes deadEyeLock {
+    0%, 55% { transform: scale(1.9) rotate(45deg); opacity: 0; }
+    66% { transform: scale(1) rotate(0deg); opacity: 0.65; }
+    78% { transform: scale(0.92) rotate(0deg); opacity: 0.85; }
+    88% { transform: scale(1.35) rotate(0deg); opacity: 0; }
+    100% { opacity: 0; }
+  }
+
+  /* On-send cinematic burst overlay */
+  .fx-burst {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 55;
+    overflow: hidden;
+  }
+
+  .fx-purple-beam {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 140px;
+    height: 140px;
+    margin: -70px 0 0 -70px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #ffffff 10%, #d8b4fe 35%, #a855f7 65%, transparent 78%);
+    animation: fxBurstPurple 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  @keyframes fxBurstPurple {
+    0% { transform: scale(0.2); opacity: 0.95; }
+    100% { transform: scale(9.5); opacity: 0; }
+  }
+
+  .fx-revolver-shot {
+    position: absolute;
+    top: 38%;
+    left: -160px;
+    width: 240px;
+    height: 4px;
+    border-radius: 999px;
+    background: linear-gradient(90deg, transparent, #cc2936 35%, #fbbf24 85%, #ffffff);
+    box-shadow: 0 0 18px #fbbf24;
+    animation: fxShot 0.45s cubic-bezier(0.12, 0.9, 0.25, 1) forwards;
+  }
+
+  @keyframes fxShot {
+    0% { transform: translate3d(0, 0, 0); opacity: 1; }
+    100% { transform: translate3d(125vw, -30px, 0); opacity: 0; }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .bg-glow, .bg-item { animation: none !important; }
+    .bg-glow, .bg-item, .gojo-void-ring, .gojo-figure, .hp-blue, .hp-red, .hp-purple, .hp-shockwave, .rdr-sunset, .rdr-cylinder, .rdr-bullet, .rdr-deadeye {
+      animation: none !important;
+    }
   }
 
   /* ===== Cute Animated Cats (Pure CSS GPU-composited, ~0 RAM) ===== */
@@ -2079,6 +2343,7 @@
 </div>
 
 <div class="toasts" id="toasts"></div>
+<div class="fx-burst" id="fxBurst" aria-hidden="true"></div>
 
 <div class="modal-backdrop" id="modalBackdrop">
   <div class="modal" id="modalBox"></div>
@@ -2266,9 +2531,108 @@
     },
   };
 
+  const GOJO_FIGURE_SVG = `
+    <svg class="scene-figure gojo-figure" viewBox="0 0 220 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Aura behind head -->
+      <circle cx="115" cy="96" r="78" fill="url(#gojoAura)" opacity="0.55"/>
+      <defs>
+        <radialGradient id="gojoAura" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#a855f7" stop-opacity="0.7"/>
+          <stop offset="55%" stop-color="#38bdf8" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#0b0a16" stop-opacity="0"/>
+        </radialGradient>
+      </defs>
+      <!-- Jujutsu High Jacket & High Collar -->
+      <path d="M38 278 L52 178 Q82 156 115 156 Q148 156 178 178 L192 278 Z" fill="#14132a" stroke="#38bdf8" stroke-opacity="0.35" stroke-width="2"/>
+      <path d="M82 152 L92 128 L138 128 L148 152 L115 170 Z" fill="#0d0c1d" stroke="#a855f7" stroke-opacity="0.45" stroke-width="1.5"/>
+      <!-- Neck & Face -->
+      <rect x="103" y="116" width="24" height="24" rx="8" fill="#dbeafe"/>
+      <path d="M84 82 Q84 126 115 130 Q146 126 146 82 Q146 52 115 52 Q84 52 84 82 Z" fill="#e2e8f0"/>
+      <!-- Iconic Black Blindfold with Six Eyes Cyan Glow -->
+      <path d="M80 76 Q115 68 150 76 L149 97 Q115 91 81 97 Z" fill="#090912" stroke="#38bdf8" stroke-opacity="0.55" stroke-width="1.2"/>
+      <ellipse cx="101" cy="85" rx="7" ry="3.2" fill="#38bdf8" opacity="0.9"/>
+      <ellipse cx="129" cy="85" rx="7" ry="3.2" fill="#38bdf8" opacity="0.9"/>
+      <circle cx="101" cy="85" r="2" fill="#ffffff"/>
+      <circle cx="129" cy="85" r="2" fill="#ffffff"/>
+      <!-- Confident Smirk -->
+      <path d="M105 112 Q116 117 126 110" stroke="#475569" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- Spiky White Hair -->
+      <path d="M78 80 L64 56 L82 60 L74 34 L96 48 L104 20 L118 44 L132 18 L136 46 L158 34 L148 60 L166 58 L150 82 Q132 62 115 62 Q98 62 78 80 Z" fill="#f8fafc"/>
+      <!-- Raised Hand Casting Hollow Purple -->
+      <path d="M52 206 L34 152 L48 148 L64 192 Z" fill="#14132a"/>
+      <circle cx="38" cy="134" r="14" fill="#a855f7" opacity="0.65"/>
+      <circle cx="38" cy="134" r="7" fill="#f3e8ff"/>
+    </svg>`;
+
+  const RDR2_FIGURE_SVG = `
+    <svg class="scene-figure rdr-figure" viewBox="0 0 240 280" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Crimson Frontier Sun behind Arthur -->
+      <circle cx="128" cy="106" r="82" fill="#cc2936" opacity="0.55"/>
+      <circle cx="128" cy="106" r="56" fill="#d49b4b" opacity="0.22"/>
+      <!-- Outlaw Duster Coat & Shoulders -->
+      <path d="M44 278 L62 162 Q98 142 132 142 Q166 142 192 166 L210 278 Z" fill="#120b09"/>
+      <!-- Bandana & Collar -->
+      <path d="M98 134 L154 134 L138 172 L114 172 Z" fill="#7f1d1d"/>
+      <!-- Head & Beard Silhouette -->
+      <path d="M106 86 Q106 130 128 134 Q150 130 150 86 Z" fill="#1b110d"/>
+      <!-- Iconic Arthur Morgan Cowboy Hat -->
+      <path d="M62 88 Q128 100 194 84 Q176 74 156 76 L148 44 Q128 52 108 44 L100 76 Q80 74 62 88 Z" fill="#0d0806" stroke="#d49b4b" stroke-opacity="0.45" stroke-width="1.5"/>
+      <path d="M102 74 Q128 80 154 74" stroke="#cc2936" stroke-width="3"/>
+      <!-- Aimed Revolver Arm & Six-Shooter -->
+      <path d="M74 176 L26 160 L30 144 L84 156 Z" fill="#120b09"/>
+      <path d="M4 143 L38 143 L38 151 L26 151 L22 164 L14 162 L18 151 L4 150 Z" fill="#2c1d16" stroke="#d49b4b" stroke-width="1.2"/>
+      <!-- Muzzle Flash -->
+      <polygon points="4,146 -12,136 -4,146 -16,148 -4,150 -10,159 4,149" fill="#fbbf24" opacity="0.9"/>
+    </svg>`;
+
+  const RDR2_CYLINDER_SVG = `
+    <svg class="rdr-cylinder" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="50" cy="50" r="44" stroke="#d49b4b" stroke-width="3" fill="#1d120e"/>
+      <circle cx="50" cy="50" r="9" fill="#cc2936"/>
+      <circle cx="50" cy="21" r="10" fill="#0e0907" stroke="#d49b4b" stroke-width="2"/>
+      <circle cx="75" cy="35.5" r="10" fill="#0e0907" stroke="#d49b4b" stroke-width="2"/>
+      <circle cx="75" cy="64.5" r="10" fill="#0e0907" stroke="#d49b4b" stroke-width="2"/>
+      <circle cx="50" cy="79" r="10" fill="#0e0907" stroke="#d49b4b" stroke-width="2"/>
+      <circle cx="25" cy="64.5" r="10" fill="#0e0907" stroke="#d49b4b" stroke-width="2"/>
+      <circle cx="25" cy="35.5" r="10" fill="#0e0907" stroke="#d49b4b" stroke-width="2"/>
+    </svg>`;
+
+  const DEADEYE_CROSSHAIR_SVG = `
+    <svg viewBox="0 0 44 44" width="44" height="44" fill="none" stroke="currentColor" stroke-width="2.4">
+      <circle cx="22" cy="22" r="14" stroke-dasharray="4 3"/>
+      <line x1="12" y1="12" x2="32" y2="32"/>
+      <line x1="32" y1="12" x2="12" y2="32"/>
+    </svg>`;
+
   function renderThemeBackground(themeId) {
     const cfg = THEME_BACKGROUNDS[themeId] || THEME_BACKGROUNDS["catppuccin-mocha"];
     let html = '<div class="bg-glow g1"></div><div class="bg-glow g2"></div>';
+
+    if (themeId === "gojo-satoru") {
+      html += `
+        <div class="gojo-void-ring"></div>
+        <div class="gojo-void-ring r2"></div>
+        <div class="gojo-attack-stage">
+          <div class="hp-blue"></div>
+          <div class="hp-red"></div>
+          <div class="hp-purple"></div>
+          <div class="hp-shockwave"></div>
+          <div class="hp-shockwave s2"></div>
+        </div>
+        ${GOJO_FIGURE_SVG}
+      `;
+    } else if (themeId === "rdr2-outlaw") {
+      html += `
+        <div class="rdr-sunset"></div>
+        ${RDR2_CYLINDER_SVG}
+        ${RDR2_FIGURE_SVG}
+        <div class="rdr-bullet" style="top:24%;--dur:4.2s;--delay:0s;"></div>
+        <div class="rdr-bullet" style="top:68%;--dur:5.6s;--delay:-2.1s;"></div>
+        <div class="rdr-deadeye" style="left:16%;top:22%;--dur:4.2s;--delay:0s;">${DEADEYE_CROSSHAIR_SVG}</div>
+        <div class="rdr-deadeye" style="left:76%;top:64%;--dur:5.6s;--delay:-2.1s;">${DEADEYE_CROSSHAIR_SVG}</div>
+      `;
+    }
+
     // Add extra flank accents so every theme feels lively along the margins without cluttering center text
     const extraFlanks = [
       { shape: cfg.items[0]?.shape || "paw", left: "4%", top: "32%", dur: "8.5s", delay: "-1.2s", drift: "22px", rot: "140deg", op: 0.3 },
@@ -2285,11 +2649,28 @@
         `--delay:${it.delay}`,
         it.drift ? `--drift:${it.drift}` : "",
         it.rot ? `--rot:${it.rot}` : "",
-        `--op:${Math.min(0.42, (it.op || 0.22) * 1.25)}`,
+        `--op:${Math.min(0.48, (it.op || 0.22) * 1.25)}`,
       ].filter(Boolean).join(";");
       html += `<div class="bg-item ${cfg.motion}" style="${style}">${BG_SHAPES[it.shape] || BG_SHAPES.paw}</div>`;
     }
     bgStage.innerHTML = html;
+  }
+
+  function triggerThemeBurst() {
+    const fxBurst = document.getElementById("fxBurst");
+    if (!fxBurst) return;
+    const theme = root.dataset.theme;
+    if (theme === "gojo-satoru") {
+      const el = document.createElement("div");
+      el.className = "fx-purple-beam";
+      fxBurst.appendChild(el);
+      setTimeout(() => el.remove(), 900);
+    } else if (theme === "rdr2-outlaw") {
+      const el = document.createElement("div");
+      el.className = "fx-revolver-shot";
+      fxBurst.appendChild(el);
+      setTimeout(() => el.remove(), 520);
+    }
   }
 
   function applyTheme(themeId) {
@@ -3867,6 +4248,7 @@
     }
     if (!text && imgs.length === 0) return;
 
+    triggerThemeBurst();
     promptInput.value = "";
     pendingImages = [];
     autoResizeInput();
@@ -3959,8 +4341,15 @@
     perchedCatEl.classList.remove("hop");
     void perchedCatEl.offsetWidth;
     perchedCatEl.classList.add("hop");
-    catBubbleEl.textContent = catPhrases[Math.floor(Math.random() * catPhrases.length)];
+    const t = root.dataset.theme;
+    const phrases = t === "gojo-satoru"
+      ? ["Hollow Purple!", "Limitless ∞", "Nah, I'd win."]
+      : t === "rdr2-outlaw"
+        ? ["Dead Eye!", "You're alright, boah.", "Outlaws for life."]
+        : catPhrases;
+    catBubbleEl.textContent = phrases[Math.floor(Math.random() * phrases.length)];
     catBubbleEl.classList.add("show");
+    triggerThemeBurst();
     clearTimeout(bubbleTimer);
     bubbleTimer = setTimeout(() => catBubbleEl.classList.remove("show"), 1300);
   });
