@@ -432,6 +432,30 @@ async function buildWorkspacesPayload() {
   return result;
 }
 
+// Real-time kernel CPU usage via os.cpus() tick deltas (matches Activity Monitor)
+let prevCpuSample = null;
+function sampleCpuPercent() {
+  const cpus = os.cpus();
+  let idle = 0;
+  let total = 0;
+  for (const c of cpus) {
+    idle += c.times.idle;
+    total += c.times.user + c.times.nice + c.times.sys + c.times.idle + c.times.irq;
+  }
+  const now = { idle, total };
+  if (!prevCpuSample) {
+    prevCpuSample = now;
+    return null;
+  }
+  const dIdle = now.idle - prevCpuSample.idle;
+  const dTotal = now.total - prevCpuSample.total;
+  prevCpuSample = now;
+  if (dTotal <= 0) return 0;
+  return Math.min(100, Math.max(0, Math.round(((1 - dIdle / dTotal) * 100) * 10) / 10));
+}
+// Prime baseline sample on startup
+sampleCpuPercent();
+
 async function collectResources() {
   const totalBytes = os.totalmem();
   const cores = os.cpus().length || 1;
@@ -440,7 +464,7 @@ async function collectResources() {
   // 1. Collect all processes in one fast `ps` call
   const pidInfo = new Map(); // pid -> { rssKb, cpu, comm }
   const appTotals = new Map(); // friendlyName -> { ramKb, cpu }
-  let totalCpuPct = 0;
+  let psCpuSum = 0;
 
   try {
     const { stdout } = await execFileAsync("ps", ["-axo", "pid=,rss=,%cpu=,comm="]);
@@ -452,7 +476,7 @@ async function collectResources() {
       const cpu = Number(m[3]);
       const comm = m[4].trim();
       pidInfo.set(pid, { rssKb, cpu, comm });
-      totalCpuPct += cpu;
+      psCpuSum += cpu;
 
       // Friendly app grouping
       let appName = path.basename(comm);
@@ -466,8 +490,10 @@ async function collectResources() {
     }
   } catch {}
 
-  // 2. macOS accurate used memory via vm_stat
+  // 2. macOS exact Activity Monitor Memory Used formula:
+  //    App Memory (Anonymous - Purgeable) + Wired + Compressed
   let usedBytes = totalBytes - os.freemem();
+  let cachedBytes = 0;
   if (process.platform === "darwin") {
     try {
       const { stdout } = await execFileAsync("vm_stat", []);
@@ -478,11 +504,15 @@ async function collectResources() {
         const mm = stdout.match(rx);
         return mm ? Number(mm[1]) : 0;
       };
-      const active = getPages("Pages active");
+      const anon = getPages("Anonymous pages");
+      const purgeable = getPages("Pages purgeable");
       const wired = getPages("Pages wired down");
       const compressed = getPages("Pages occupied by compressor");
-      if (active + wired > 0) {
-        usedBytes = (active + wired + compressed) * pageSize;
+      const fileBacked = getPages("File-backed pages");
+      if (anon + wired > 0) {
+        const appPages = Math.max(0, anon - purgeable);
+        usedBytes = (appPages + wired + compressed) * pageSize;
+        cachedBytes = (fileBacked + purgeable) * pageSize;
       }
     } catch {}
   }
@@ -533,7 +563,9 @@ async function collectResources() {
 
   const totalRamGb = totalBytes / (1024 ** 3);
   const usedRamGb = Math.min(totalRamGb, usedBytes / (1024 ** 3));
-  const cpuPercent = Math.min(100, Math.round((totalCpuPct / cores) * 10) / 10);
+  const cachedRamGb = cachedBytes / (1024 ** 3);
+  const deltaCpu = sampleCpuPercent();
+  const cpuPercent = deltaCpu !== null ? deltaCpu : Math.min(100, Math.round((psCpuSum / cores) * 10) / 10);
 
   return {
     meowDon: {
@@ -545,6 +577,7 @@ async function collectResources() {
     system: {
       totalRamGb: Math.round(totalRamGb * 10) / 10,
       usedRamGb: Math.round(usedRamGb * 10) / 10,
+      cachedRamGb: Math.round(cachedRamGb * 10) / 10,
       ramPercent: Math.round((usedRamGb / totalRamGb) * 100),
       cpuPercent,
       load1: Math.round(load1 * 100) / 100,
