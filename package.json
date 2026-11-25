@@ -1,0 +1,24 @@
+{
+  "name": "meow-don",
+  "version": "1.0.0",
+  "description": "Zero-dependency local browser workspace & git worktree UI for Pi coding agent",
+  "type": "module",
+  "bin": {
+    "meow-don": "./server.mjs"
+  },
+  "scripts": {
+    "start": "node ./server.mjs"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "pi",
+    "coding-agent",
+    "rpc",
+    "git-worktree",
+    "web-ui",
+    "catppuccin"
+  ],
+  "license": "MIT"
+}
