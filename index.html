@@ -2764,15 +2764,17 @@
     themeSelect.value = chosen;
     localStorage.setItem("pi-web-theme", chosen);
     renderThemeBackground(chosen);
-    if (typeof renderThread === "function" && activeCwd) {
-      const st = sessionStates.get(activeCwd);
-      if (st && st.items.length === 0) renderThread();
-    }
   }
   const savedTheme = localStorage.getItem("pi-web-theme");
   const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
   applyTheme(validThemes.has(savedTheme) ? savedTheme : (prefersDark ? "catppuccin-mocha" : "ginger-tabby"));
-  themeSelect.addEventListener("change", () => applyTheme(themeSelect.value));
+  themeSelect.addEventListener("change", () => {
+    applyTheme(themeSelect.value);
+    if (activeCwd) {
+      const st = sessionStates.get(activeCwd);
+      if (st && st.items.length === 0) renderThread();
+    }
+  });
 
   // ===== DOM refs =====
   const sidebar = document.getElementById("sidebar");
