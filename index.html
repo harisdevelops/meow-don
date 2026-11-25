@@ -787,13 +787,14 @@
     overflow-y: auto;
     padding: 24px 20px 44px;
     position: relative;
-    background-color: var(--bg);
+    z-index: 2;
+    background: transparent;
     overscroll-behavior: contain;
   }
 
   .thread {
     position: relative;
-    z-index: 2;
+    z-index: 3;
     max-width: 760px;
     margin: 0 auto;
     display: flex;
@@ -801,19 +802,24 @@
     gap: 20px;
   }
 
-  /* ===== Per-Theme Animated Background Stage (Pure CSS GPU, ~0 RAM) ===== */
+  /* ===== Per-Theme Animated Background Stage (Anchored strictly to .main-pane — NEVER hidden behind sidebars!) ===== */
   .bg-stage {
-    position: fixed;
-    inset: 0;
+    position: absolute;
+    top: 44px;
+    left: 0;
+    right: 0;
+    bottom: 0;
     pointer-events: none;
     overflow: hidden;
-    z-index: 0;
+    z-index: 1;
+    background-color: var(--bg);
     contain: strict;
   }
 
   .main-pane {
     position: relative;
     z-index: 1;
+    background-color: var(--bg);
   }
 
   header.topbar, footer {
@@ -851,7 +857,7 @@
     opacity: 0.24;
   }
 
-  /* Gentle readability veil behind the central chat column while letting side animations shine */
+  /* Gentle readability veil for cat themes; disabled for Gojo & RDR2 so full animations shine */
   .bg-stage::after {
     content: "";
     position: absolute;
@@ -859,9 +865,14 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: min(780px, 86%);
-    background: linear-gradient(90deg, transparent 0%, var(--bg) 12%, var(--bg) 88%, transparent 100%);
-    opacity: 0.42;
+    width: min(760px, 84%);
+    background: linear-gradient(90deg, transparent 0%, var(--bg) 14%, var(--bg) 86%, transparent 100%);
+    opacity: 0.36;
+  }
+
+  [data-theme="gojo-satoru"] .bg-stage::after,
+  [data-theme="rdr2-outlaw"] .bg-stage::after {
+    opacity: 0;
   }
 
   /* Motion presets per theme */
@@ -1011,12 +1022,39 @@
   }
 
   .gojo-figure {
-    right: 22px;
-    bottom: 64px;
+    right: 16px;
+    bottom: 108px;
+    width: 230px;
+    height: 280px;
+    opacity: 0.88;
+    animation: figureHover 4.2s ease-in-out infinite alternate;
+  }
+
+  .gojo-hand-glow {
+    transform-origin: 42px 134px;
+    animation: handCharge 2.2s ease-in-out infinite alternate;
+  }
+
+  @keyframes handCharge {
+    0% { transform: scale(0.82); opacity: 0.7; }
+    100% { transform: scale(1.38); opacity: 1; }
+  }
+
+  .hp-lightning {
+    position: absolute;
+    left: 50%;
+    top: 50%;
     width: 240px;
-    height: 300px;
-    opacity: 0.34;
-    animation: figureHover 5s ease-in-out infinite alternate;
+    height: 240px;
+    margin: -120px 0 0 -120px;
+    animation: hpBoltFlash 5.2s ease-out infinite;
+  }
+
+  @keyframes hpBoltFlash {
+    0%, 46% { transform: scale(0.4) rotate(0deg); opacity: 0; }
+    52% { transform: scale(1.1) rotate(12deg); opacity: 0.95; }
+    64% { transform: scale(1.35) rotate(-8deg); opacity: 0.65; }
+    78%, 100% { transform: scale(1.7) rotate(20deg); opacity: 0; }
   }
 
   @keyframes figureHover {
@@ -1134,21 +1172,45 @@
   }
 
   .rdr-figure {
-    right: 18px;
-    bottom: 58px;
+    right: 14px;
+    bottom: 102px;
     width: 245px;
-    height: 290px;
-    opacity: 0.38;
+    height: 285px;
+    opacity: 0.9;
+  }
+
+  .rdr-revolver-arm {
+    transform-origin: 84px 156px;
+    animation: revolverRecoil 4.2s ease-out infinite;
+  }
+
+  @keyframes revolverRecoil {
+    0%, 71% { transform: rotate(0deg); }
+    74% { transform: rotate(15deg) translate3d(4px, -3px, 0); }
+    82% { transform: rotate(-2deg); }
+    90%, 100% { transform: rotate(0deg); }
+  }
+
+  .rdr-muzzle-flash {
+    transform-origin: 6px 146px;
+    animation: muzzleBang 4.2s ease-out infinite;
+  }
+
+  @keyframes muzzleBang {
+    0%, 71% { transform: scale(0.1); opacity: 0; }
+    73% { transform: scale(1.65); opacity: 1; }
+    78% { transform: scale(0.8); opacity: 0.5; }
+    82%, 100% { transform: scale(0.1); opacity: 0; }
   }
 
   .rdr-cylinder {
     position: absolute;
-    left: 34px;
-    bottom: 92px;
-    width: 96px;
-    height: 96px;
-    opacity: 0.3;
-    animation: cylinderSpin 5.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    left: 20px;
+    bottom: 118px;
+    width: 112px;
+    height: 112px;
+    opacity: 0.78;
+    animation: cylinderSpin 4.2s cubic-bezier(0.65, 0, 0.35, 1) infinite;
   }
 
   @keyframes cylinderSpin {
@@ -2190,8 +2252,9 @@
       </div>
     </header>
 
+    <div class="bg-stage" id="bgStage" aria-hidden="true"></div>
+
     <main id="scrollContainer">
-      <div class="bg-stage" id="bgStage" aria-hidden="true"></div>
       <div class="thread" id="thread"></div>
     </main>
 
@@ -2559,30 +2622,51 @@
       <!-- Spiky White Hair -->
       <path d="M78 80 L64 56 L82 60 L74 34 L96 48 L104 20 L118 44 L132 18 L136 46 L158 34 L148 60 L166 58 L150 82 Q132 62 115 62 Q98 62 78 80 Z" fill="#f8fafc"/>
       <!-- Raised Hand Casting Hollow Purple -->
-      <path d="M52 206 L34 152 L48 148 L64 192 Z" fill="#14132a"/>
-      <circle cx="38" cy="134" r="14" fill="#a855f7" opacity="0.65"/>
-      <circle cx="38" cy="134" r="7" fill="#f3e8ff"/>
+      <path d="M52 206 L34 152 L48 148 L64 192 Z" fill="#14132a" stroke="#38bdf8" stroke-opacity="0.4" stroke-width="1.2"/>
+      <g class="gojo-hand-glow">
+        <circle cx="42" cy="134" r="22" fill="#a855f7" opacity="0.45"/>
+        <circle cx="42" cy="134" r="13" fill="#c084fc" opacity="0.8"/>
+        <circle cx="42" cy="134" r="6" fill="#ffffff"/>
+      </g>
+    </svg>`;
+
+  const HP_LIGHTNING_SVG = `
+    <svg class="hp-lightning" viewBox="0 0 240 240" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M120 120 L74 62 L92 56 L48 18" stroke="#e9d5ff" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M120 120 L178 74 L166 58 L214 26" stroke="#38bdf8" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M120 120 L182 158 L168 174 L218 206" stroke="#c084fc" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M120 120 L66 168 L80 182 L34 214" stroke="#f43f5e" stroke-width="2.4" stroke-linecap="round"/>
+      <path d="M120 120 L118 40 L132 32 L124 8" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
     </svg>`;
 
   const RDR2_FIGURE_SVG = `
     <svg class="scene-figure rdr-figure" viewBox="0 0 240 280" fill="none" xmlns="http://www.w3.org/2000/svg">
       <!-- Crimson Frontier Sun behind Arthur -->
-      <circle cx="128" cy="106" r="82" fill="#cc2936" opacity="0.55"/>
-      <circle cx="128" cy="106" r="56" fill="#d49b4b" opacity="0.22"/>
+      <circle cx="132" cy="108" r="84" fill="#cc2936" opacity="0.72"/>
+      <circle cx="132" cy="108" r="56" fill="#d49b4b" opacity="0.28"/>
       <!-- Outlaw Duster Coat & Shoulders -->
-      <path d="M44 278 L62 162 Q98 142 132 142 Q166 142 192 166 L210 278 Z" fill="#120b09"/>
+      <path d="M44 278 L62 162 Q98 142 132 142 Q166 142 192 166 L210 278 Z" fill="#120b09" stroke="#d49b4b" stroke-opacity="0.3" stroke-width="1.5"/>
       <!-- Bandana & Collar -->
-      <path d="M98 134 L154 134 L138 172 L114 172 Z" fill="#7f1d1d"/>
+      <path d="M98 134 L154 134 L138 172 L114 172 Z" fill="#991b1b" stroke="#d49b4b" stroke-opacity="0.4" stroke-width="1"/>
       <!-- Head & Beard Silhouette -->
-      <path d="M106 86 Q106 130 128 134 Q150 130 150 86 Z" fill="#1b110d"/>
+      <path d="M106 86 Q106 130 128 134 Q150 130 150 86 Z" fill="#1e130f"/>
       <!-- Iconic Arthur Morgan Cowboy Hat -->
-      <path d="M62 88 Q128 100 194 84 Q176 74 156 76 L148 44 Q128 52 108 44 L100 76 Q80 74 62 88 Z" fill="#0d0806" stroke="#d49b4b" stroke-opacity="0.45" stroke-width="1.5"/>
-      <path d="M102 74 Q128 80 154 74" stroke="#cc2936" stroke-width="3"/>
-      <!-- Aimed Revolver Arm & Six-Shooter -->
-      <path d="M74 176 L26 160 L30 144 L84 156 Z" fill="#120b09"/>
-      <path d="M4 143 L38 143 L38 151 L26 151 L22 164 L14 162 L18 151 L4 150 Z" fill="#2c1d16" stroke="#d49b4b" stroke-width="1.2"/>
-      <!-- Muzzle Flash -->
-      <polygon points="4,146 -12,136 -4,146 -16,148 -4,150 -10,159 4,149" fill="#fbbf24" opacity="0.9"/>
+      <path d="M60 88 Q128 102 196 84 Q178 73 156 76 L148 42 Q128 52 108 42 L100 76 Q78 73 60 88 Z" fill="#0d0806" stroke="#d49b4b" stroke-opacity="0.6" stroke-width="1.6"/>
+      <path d="M102 74 Q128 81 154 74" stroke="#cc2936" stroke-width="3.5"/>
+      <!-- Aimed Revolver Arm & Detailed Six-Shooter (Recoils & Fires!) -->
+      <g class="rdr-revolver-arm">
+        <path d="M82 174 L32 158 L36 144 L90 156 Z" fill="#140c09" stroke="#d49b4b" stroke-opacity="0.3" stroke-width="1"/>
+        <!-- Revolver Barrel, Cylinder, Hammer, Grip -->
+        <rect x="4" y="140" width="32" height="6" rx="1.5" fill="#94a3b8" stroke="#1e293b" stroke-width="1"/>
+        <rect x="26" y="142" width="12" height="10" rx="2" fill="#d49b4b" stroke="#1e130f" stroke-width="1"/>
+        <path d="M36 146 L46 149 L42 164 L32 162 Z" fill="#5c3a21" stroke="#d49b4b" stroke-width="1"/>
+        <path d="M36 142 L41 137" stroke="#d49b4b" stroke-width="2" stroke-linecap="round"/>
+        <!-- Blazing Muzzle Flash -->
+        <g class="rdr-muzzle-flash">
+          <polygon points="4,143 -18,128 -6,141 -26,144 -6,147 -16,160 4,146" fill="#fbbf24"/>
+          <polygon points="4,143 -10,136 -3,143 -14,144 -3,146 -8,152 4,145" fill="#ffffff"/>
+        </g>
+      </g>
     </svg>`;
 
   const RDR2_CYLINDER_SVG = `
@@ -2616,6 +2700,7 @@
           <div class="hp-blue"></div>
           <div class="hp-red"></div>
           <div class="hp-purple"></div>
+          ${HP_LIGHTNING_SVG}
           <div class="hp-shockwave"></div>
           <div class="hp-shockwave s2"></div>
         </div>
@@ -2679,6 +2764,10 @@
     themeSelect.value = chosen;
     localStorage.setItem("pi-web-theme", chosen);
     renderThemeBackground(chosen);
+    if (typeof renderThread === "function" && activeCwd) {
+      const st = sessionStates.get(activeCwd);
+      if (st && st.items.length === 0) renderThread();
+    }
   }
   const savedTheme = localStorage.getItem("pi-web-theme");
   const prefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -3616,9 +3705,25 @@
       const label = meta
         ? `${meta.repo.name}${meta.wt.branch ? ` (${meta.wt.branch})` : ""}`
         : (activeCwd === homeDir ? "Quick chat" : shortPath(activeCwd));
-      threadEl.innerHTML = `
-        <div class="empty-state">
-          <svg class="hero-kitty" viewBox="0 0 96 84" aria-hidden="true">
+      const curTheme = root.dataset.theme;
+      const heroGraphic = curTheme === "gojo-satoru"
+        ? `<svg class="hero-kitty" style="width:96px;height:96px;" viewBox="0 0 100 100" aria-hidden="true">
+            <circle cx="50" cy="50" r="42" fill="none" stroke="#a855f7" stroke-width="2" stroke-dasharray="6 4"/>
+            <circle cx="34" cy="50" r="14" fill="#38bdf8" opacity="0.75"/>
+            <circle cx="66" cy="50" r="14" fill="#f43f5e" opacity="0.75"/>
+            <circle cx="50" cy="50" r="18" fill="#a855f7" opacity="0.9"/>
+            <circle cx="50" cy="50" r="8" fill="#ffffff"/>
+          </svg>`
+        : curTheme === "rdr2-outlaw"
+          ? `<svg class="hero-kitty" style="width:96px;height:96px;" viewBox="0 0 100 100" aria-hidden="true">
+              <circle cx="50" cy="50" r="42" fill="#cc2936" opacity="0.88"/>
+              <circle cx="50" cy="50" r="34" fill="none" stroke="#d49b4b" stroke-width="2"/>
+              <rect x="20" y="45" width="44" height="8" rx="2" fill="#f3e6d3"/>
+              <rect x="50" y="47" width="16" height="13" rx="2" fill="#d49b4b"/>
+              <path d="M64 52 L77 56 L72 74 L59 71 Z" fill="#17100d" stroke="#d49b4b" stroke-width="1.5"/>
+              <polygon points="18,49 6,41 12,48 4,49 12,51 8,58 18,50" fill="#fbbf24"/>
+            </svg>`
+          : `<svg class="hero-kitty" viewBox="0 0 96 84" aria-hidden="true">
             <path class="cat-tail" d="M72 64 Q88 58 86 42 Q85 34 78 36" stroke="var(--accent)" stroke-width="5.5" fill="none" stroke-linecap="round"/>
             <ellipse cx="48" cy="58" rx="25" ry="18" fill="var(--accent)" opacity="0.92"/>
             <circle cx="48" cy="36" r="19" fill="var(--accent)"/>
@@ -3634,7 +3739,10 @@
             <path d="M44 42.5 Q48 45.8 52 42.5" stroke="var(--bg)" stroke-width="1.6" fill="none" stroke-linecap="round"/>
             <ellipse cx="38" cy="72" rx="6" ry="4" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
             <ellipse cx="58" cy="72" rx="6" ry="4" fill="var(--surface)" stroke="var(--accent)" stroke-width="2"/>
-          </svg>
+          </svg>`;
+      threadEl.innerHTML = `
+        <div class="empty-state">
+          ${heroGraphic}
           <h1>Start a new task</h1>
           <p>Active workspace: <strong>${escapeHtml(label)}</strong>. Switch models in the toolbar or isolate parallel work in a new git worktree.</p>
           <div class="suggestions">
