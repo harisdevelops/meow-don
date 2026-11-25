@@ -305,6 +305,72 @@
     --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.65);
   }
 
+  /* ♾️ Gojo Satoru — Limitless / Six Eyes / Hollow Purple */
+  [data-theme="gojo-satoru"] {
+    --bg: #0b0a16;
+    --sidebar-bg: #110f22;
+    --surface: #17152e;
+    --surface-subtle: #211e40;
+    --user-bubble: #231f47;
+    --border: rgba(168, 85, 247, 0.22);
+    --border-strong: rgba(56, 189, 248, 0.34);
+    --text: #eef2ff;
+    --text-muted: #a5b4fc;
+    --text-faint: #6f7ab5;
+    --accent: #38bdf8;
+    --accent-hover: #a855f7;
+    --accent-soft: rgba(168, 85, 247, 0.22);
+    --success: #34d399;
+    --danger: #f43f5e;
+    --code-bg: #0e0d1c;
+    --code-header: #191732;
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 8px 28px rgba(168, 85, 247, 0.2);
+    --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.7);
+  }
+
+  /* 🤠 Red Dead Redemption 2 — Frontier Crimson & Weathered Leather */
+  [data-theme="rdr2-outlaw"] {
+    --bg: #17100d;
+    --sidebar-bg: #201511;
+    --surface: #281b15;
+    --surface-subtle: #34231c;
+    --user-bubble: #3b241c;
+    --border: rgba(212, 155, 75, 0.18);
+    --border-strong: rgba(200, 35, 44, 0.38);
+    --text: #f3e6d3;
+    --text-muted: #c2ab91;
+    --text-faint: #8c755e;
+    --accent: #cc2936;
+    --accent-hover: #e03a47;
+    --accent-soft: rgba(204, 41, 54, 0.22);
+    --success: #7ea16b;
+    --danger: #e64848;
+    --code-bg: #130d0a;
+    --code-header: #241813;
+    --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.45);
+    --shadow-md: 0 8px 26px rgba(0, 0, 0, 0.55);
+    --shadow-lg: 0 18px 48px rgba(0, 0, 0, 0.72);
+    --font-heading: "Newsreader", Georgia, "Times New Roman", serif;
+  }
+
+  [data-theme="gojo-satoru"],
+  [data-theme="rdr2-outlaw"] {
+    --syn-kw: #c084fc;
+    --syn-str: #86efac;
+    --syn-num: #fbbf24;
+    --syn-com: #7c7f99;
+    --syn-fn: #38bdf8;
+  }
+
+  [data-theme="rdr2-outlaw"] {
+    --syn-kw: #e55959;
+    --syn-str: #a7c957;
+    --syn-num: #e9c46a;
+    --syn-com: #8c755e;
+    --syn-fn: #f4a261;
+  }
+
   * { box-sizing: border-box; }
 
   /* Subtle themed scrollbars */
@@ -843,6 +909,70 @@
   [data-theme="russian-blue"] .bg-glow.g1 { background: radial-gradient(circle, rgba(78, 201, 148, 0.18) 0%, transparent 70%); }
   [data-theme="ginger-tabby"] .bg-glow.g1 { background: radial-gradient(circle, rgba(212, 98, 42, 0.19) 0%, transparent 70%); }
   [data-theme="siamese-cream"] .bg-glow.g1 { background: radial-gradient(circle, rgba(59, 110, 165, 0.18) 0%, transparent 70%); }
+
+  /* Gojo Satoru & RDR2 signature background glows & animations */
+  [data-theme="gojo-satoru"] .bg-glow.g1 {
+    background: radial-gradient(circle, rgba(56, 189, 248, 0.28) 0%, transparent 70%);
+  }
+  [data-theme="gojo-satoru"] .bg-glow.g2 {
+    background: radial-gradient(circle, rgba(244, 63, 94, 0.24) 0%, rgba(168, 85, 247, 0.16) 45%, transparent 72%);
+  }
+  [data-theme="rdr2-outlaw"] .bg-glow.g1 {
+    background: radial-gradient(circle, rgba(204, 41, 54, 0.28) 0%, transparent 70%);
+  }
+  [data-theme="rdr2-outlaw"] .bg-glow.g2 {
+    background: radial-gradient(circle, rgba(212, 155, 75, 0.22) 0%, transparent 70%);
+  }
+
+  /* Orbiting Hollow Purple / Limitless rings for Gojo */
+  .anim-orbit {
+    animation: bgOrbit var(--dur, 10s) ease-in-out var(--delay, 0s) infinite alternate;
+  }
+  @keyframes bgOrbit {
+    0% { transform: translate3d(0, 0, 0) scale(0.85) rotate(0deg); opacity: calc(var(--op, 0.35) * 0.6); }
+    50% { transform: translate3d(var(--drift, 42px), -28px, 0) scale(1.18) rotate(180deg); opacity: var(--op, 0.35); }
+    100% { transform: translate3d(calc(var(--drift, 42px) * -0.6), 24px, 0) scale(0.95) rotate(360deg); opacity: calc(var(--op, 0.35) * 0.8); }
+  }
+
+  /* Rising glowing campfire embers for RDR2 */
+  .anim-ember {
+    bottom: -24px;
+    animation: bgEmber var(--dur, 9s) ease-out var(--delay, 0s) infinite;
+  }
+  @keyframes bgEmber {
+    0% { transform: translate3d(0, 0, 0) scale(1.1); opacity: 0; }
+    15% { opacity: var(--op, 0.55); }
+    75% { opacity: var(--op, 0.45); }
+    100% { transform: translate3d(var(--drift, 65px), -95vh, 0) scale(0.35) rotate(120deg); opacity: 0; }
+  }
+
+  /* RDR2 classic western title styling */
+  [data-theme="rdr2-outlaw"] .empty-state h1,
+  [data-theme="rdr2-outlaw"] .prose h1,
+  [data-theme="rdr2-outlaw"] .prose h2 {
+    letter-spacing: 0.015em;
+    text-transform: uppercase;
+  }
+
+  [data-theme="rdr2-outlaw"] .brand {
+    font-family: "Newsreader", Georgia, serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  /* Gojo Satoru subtle Limitless glow on active accents */
+  [data-theme="gojo-satoru"] .brand-mark {
+    background: linear-gradient(135deg, #38bdf8 0%, #a855f7 55%, #f43f5e 100%);
+  }
+
+  [data-theme="gojo-satoru"] header.topbar {
+    background: linear-gradient(90deg, rgba(56, 189, 248, 0.12) 0%, var(--sidebar-bg) 50%, rgba(168, 85, 247, 0.14) 100%);
+  }
+
+  [data-theme="rdr2-outlaw"] header.topbar {
+    background: linear-gradient(90deg, rgba(204, 41, 54, 0.2) 0%, var(--sidebar-bg) 55%, rgba(212, 155, 75, 0.12) 100%);
+    border-bottom-color: rgba(204, 41, 54, 0.45);
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .bg-glow, .bg-item { animation: none !important; }
@@ -1785,6 +1915,8 @@
           <option value="russian-blue">💎 Russian Blue</option>
           <option value="tuxedo-cat">🎩 Tuxedo Cat</option>
           <option value="black-cat-midnight">🌙 Black Cat Midnight</option>
+          <option value="gojo-satoru">♾️ Gojo Satoru (Limitless)</option>
+          <option value="rdr2-outlaw">🤠 Red Dead Redemption 2</option>
         </select>
         <button class="pill-btn" id="rewindBtn" title="Rewind / fork from an earlier message (Esc twice)">↺ Rewind</button>
         <button class="pill-btn" id="newChatBtn" title="Start a fresh conversation in this worktree">New chat</button>
@@ -1971,6 +2103,13 @@
     fish: '<svg width="26" height="20" viewBox="0 0 28 20" fill="currentColor"><ellipse cx="12" cy="10" rx="8.5" ry="5.5"/><polygon points="19,10 26,5 26,15"/></svg>',
     bowtie: '<svg width="26" height="18" viewBox="0 0 28 18" fill="currentColor"><polygon points="2,3 14,9 2,15"/><polygon points="26,3 14,9 26,15"/><circle cx="14" cy="9" r="2.6"/></svg>',
     steam: '<svg width="24" height="32" viewBox="0 0 24 32" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 28 Q4 21 8 15 Q12 9 8 3"/><path d="M16 28 Q12 21 16 15 Q20 9 16 3"/></svg>',
+    infinity: '<svg width="34" height="20" viewBox="0 0 36 20" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 4 C4 4 2 7 2 10 C2 13 4 16 9 16 C14 16 16 10 18 10 C20 10 22 4 27 4 C32 4 34 7 34 10 C34 13 32 16 27 16 C22 16 20 10 18 10 C16 10 14 4 9 4 Z"/></svg>',
+    orbBlue: '<svg width="28" height="28" viewBox="0 0 28 28"><circle cx="14" cy="14" r="10" fill="#38bdf8" opacity="0.55"/><circle cx="14" cy="14" r="5" fill="#e0f2fe"/></svg>',
+    orbRed: '<svg width="26" height="26" viewBox="0 0 26 26"><circle cx="13" cy="13" r="9.5" fill="#f43f5e" opacity="0.55"/><circle cx="13" cy="13" r="4.5" fill="#ffe4e6"/></svg>',
+    orbPurple: '<svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="13" fill="none" stroke="#a855f7" stroke-width="2" opacity="0.7"/><circle cx="17" cy="17" r="7.5" fill="#a855f7" opacity="0.55"/><circle cx="17" cy="17" r="3.5" fill="#f3e8ff"/></svg>',
+    ember: '<svg width="14" height="14" viewBox="0 0 14 14"><circle cx="7" cy="7" r="4" fill="#f59e0b"/><circle cx="7" cy="7" r="2" fill="#fef3c7"/></svg>',
+    emberRed: '<svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="5" fill="#cc2936" opacity="0.85"/><circle cx="8" cy="8" r="2.2" fill="#fbbf24"/></svg>',
+    sheriffStar: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><polygon points="12,2 14.9,8.6 22,9.3 16.6,14 18.2,21 12,17.3 5.8,21 7.4,14 2,9.3 9.1,8.6"/></svg>',
   };
 
   const THEME_BACKGROUNDS = {
@@ -2095,6 +2234,34 @@
         { shape: "star", left: "88%", top: "74%", dur: "4.5s", delay: "-3.1s", op: 0.34 },
         { shape: "paw", left: "20%", top: "72%", dur: "5.9s", delay: "-2s", op: 0.22 },
         { shape: "star", left: "56%", top: "82%", dur: "3.6s", delay: "-1.8s", op: 0.35 },
+      ],
+    },
+    "gojo-satoru": {
+      motion: "anim-orbit",
+      items: [
+        { shape: "orbBlue", left: "10%", top: "20%", dur: "7.5s", delay: "0s", drift: "55px", op: 0.45 },
+        { shape: "orbRed", left: "86%", top: "22%", dur: "8.2s", delay: "-2s", drift: "-55px", op: 0.45 },
+        { shape: "orbPurple", left: "16%", top: "68%", dur: "9.5s", delay: "-3.5s", drift: "48px", op: 0.48 },
+        { shape: "orbPurple", left: "82%", top: "70%", dur: "9.0s", delay: "-1.2s", drift: "-45px", op: 0.48 },
+        { shape: "infinity", left: "46%", top: "14%", dur: "11s", delay: "-4s", drift: "32px", op: 0.28 },
+        { shape: "star", left: "28%", top: "36%", dur: "5.5s", delay: "-1.8s", drift: "24px", op: 0.36 },
+        { shape: "star", left: "72%", top: "44%", dur: "6.2s", delay: "-3.1s", drift: "-26px", op: 0.36 },
+        { shape: "orbBlue", left: "91%", top: "50%", dur: "7.8s", delay: "-4.5s", drift: "-35px", op: 0.4 },
+        { shape: "orbRed", left: "6%", top: "48%", dur: "8.4s", delay: "-2.7s", drift: "38px", op: 0.4 },
+      ],
+    },
+    "rdr2-outlaw": {
+      motion: "anim-ember",
+      items: [
+        { shape: "ember", left: "8%", dur: "7.5s", delay: "0s", drift: "55px", op: 0.6 },
+        { shape: "emberRed", left: "16%", dur: "9.2s", delay: "-2.5s", drift: "75px", op: 0.55 },
+        { shape: "sheriffStar", left: "24%", dur: "14s", delay: "-6s", drift: "35px", op: 0.22 },
+        { shape: "ember", left: "36%", dur: "8.4s", delay: "-4.1s", drift: "60px", op: 0.5 },
+        { shape: "emberRed", left: "64%", dur: "9.8s", delay: "-1.7s", drift: "70px", op: 0.52 },
+        { shape: "ember", left: "78%", dur: "7.2s", delay: "-3.3s", drift: "50px", op: 0.62 },
+        { shape: "sheriffStar", left: "86%", dur: "15s", delay: "-8s", drift: "-30px", op: 0.24 },
+        { shape: "emberRed", left: "92%", dur: "8.6s", delay: "-5.2s", drift: "45px", op: 0.58 },
+        { shape: "ember", left: "50%", dur: "10.5s", delay: "-7.1s", drift: "65px", op: 0.45 },
       ],
     },
   };
